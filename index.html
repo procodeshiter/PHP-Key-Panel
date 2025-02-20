@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Key Management Panel</title>
+    <style>
+        /* Подключение шрифта Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1e1e2f;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 40px;
+        }
+        h1, h2 {
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #bb86fc;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(135deg, #bb86fc, #9a67ea);
+            color: #1e1e2f;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        #keyList {
+            padding-left: 0;
+            margin-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        #keyList li {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            list-style-type: none;
+            width: calc(33.333% - 20px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #keyList li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        #keyList button {
+            background: linear-gradient(135deg, #bb86fc, #9a67ea);
+            color: #1e1e2f;
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #keyList button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .keyListContainer {
+            width: 100%;
+        }
+        .search-container {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-container input {
+            width: calc(100% - 120px);
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+        .search-container input:focus {
+            border-color: #bb86fc;
+            outline: none;
+        }
+        .search-container button {
+            width: 100px;
+        }
+        .bottom-panel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 1200px;
+        }
+        .bottom-panel h2 {
+            margin-bottom: 20px;
+        }
+        .bottom-panel input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+        .bottom-panel input:focus {
+            border-color: #bb86fc;
+            outline: none;
+        }
+        .bottom-panel button {
+            width: 100%;
+        }
+        .key-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+            color: #bb86fc;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Key Management by @argspoof</h1>
+
+    <h2>Create a New Key</h2>
+    <form id="createKeyForm">
+        <label for="expiryDays">Amount of Days:</label>
+        <input type="number" id="expiryDays" name="expiryDays" required>
+        <button type="submit">Create Key</button>
+    </form>
+    
+    <h2>HWID to Key Binding</h2>
+    <form id="bindHwidForm">
+        <label for="key">Key:</label>
+        <input type="text" id="key" name="key" required><br>
+        <label for="hwid">HWID:</label>
+        <input type="text" id="hwid" name="hwid" required><br>
+        <button type="submit">Bind HWID</button>
+    </form>
+
+    <h2>List of All Keys</h2>
+    <div class="keyListContainer">
+        <div class="search-container">
+            <input type="text" id="searchKey" placeholder="Enter search data">
+            <button onclick="searchByData()">Find</button>
+        </div>
+        <ul id="keyList"></ul>
+    </div>
+</div>
+
+<!-- Нижняя панель для создания и отображения ключей -->
+<div class="bottom-panel">
+    <h2>Key Generator & Display</h2>
+    <input type="text" id="keyInput" placeholder="Enter key details">
+    <button onclick="generateKey()">Generate Key</button>
+    <div class="key-display" id="keyDisplay">
+        <!-- Здесь будет отображаться сгенерированный ключ -->
+    </div>
+</div>
+
+<script>
+    function searchByData() {
+        event.preventDefault();
+        var input, filter, ul, li, i, listItemText;
+        input = document.getElementById('searchKey');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("keyList");
+        li = ul.getElementsByTagName('li');
+        for (i = 0; i < li.length; i++) {
+            listItemText = li[i].textContent || li[i].innerText;
+            if (listItemText.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+    function toggleKeyState(key, freeze) {
+        var action = freeze ? 'freeze' : 'unfreeze';
+        var formData = new FormData();
+        formData.append('key', key);
+        fetch(action + '_key.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            loadKeyList();
+        }).catch(error => console.error('Error:', error));
+    }
+    
+    window.onload = function() {
+        loadKeyList();
+    };
+
+    function loadKeyList() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const keyList = document.getElementById("keyList");
+                keyList.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.open("GET", "get_keys.php", true);
+        xhr.send();
+    }
+
+    document.getElementById("createKeyForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const expiryDays = document.getElementById("expiryDays").value;
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                loadKeyList();
+            }
+        };
+        xhr.open("POST", "create_key.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("expiryDays=" + expiryDays);
+    });
+    
+    document.getElementById("bindHwidForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const key = document.getElementById("key").value;
+        const hwid = document.getElementById("hwid").value;
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                loadKeyList();
+            }
+        };
+        xhr.open("POST", "bind_hwid.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("key=" + key + "&hwid=" + hwid);
+    });
+
+    document.getElementById("keyList").addEventListener("click", function(event) {
+        const target = event.target;
+        if (target.tagName === "BUTTON") {
+            const key = target.dataset.key;
+            const action = target.dataset.action;
+            if (action === "unbind") {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        loadKeyList();
+                    }
+                };
+                xhr.open("POST", "unbind_hwid.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("key=" + key);
+            } else if (action === "freeze") {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        loadKeyList();
+                    }
+                };
+                xhr.open("POST", "freeze_key.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("key=" + key);
+            } else if (action === "unfreeze") {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        loadKeyList();
+                    }
+                };
+                xhr.open("POST", "unfreeze_key.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("key=" + key);
+            } else if (action === "delete") {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        loadKeyList();
+                    }
+                };
+                xhr.open("POST", "delete_key.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("key=" + key);
+            }
+        }
+    });
+
+    // Функция для генерации и отображения ключа
+    function generateKey() {
+        const keyInput = document.getElementById("keyInput").value;
+        const keyDisplay = document.getElementById("keyDisplay");
+        if (keyInput.trim() === "") {
+            alert("Please enter key details!");
+            return;
+        }
+        // Здесь можно добавить логику генерации ключа
+        const generatedKey = `Generated Key: ${keyInput} (Expires in 30 days)`;
+        keyDisplay.textContent = generatedKey;
+    }
+</script>
+</body>
+</html>
